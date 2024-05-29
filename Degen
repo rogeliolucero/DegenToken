@@ -4,35 +4,43 @@ pragma solidity >= 0.6.12<0.9.0;
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract DegenTokenLucero is ERC20, Ownable {
+contract Diamond is ERC20, Ownable {
 
-mapping (uint256 => uint256) public GameAccountValue;
-    constructor(address initialOwner) Ownable(initialOwner)ERC20("DegenToken", "DEGEN") {
+mapping (uint256 => uint256) public SkinCharacterId ;
+    constructor(address initialOwner) Ownable(initialOwner)ERC20("Diamond", "Dias") {
+
         _mint(initialOwner,3000);
     }
 
-    function mint(address to, uint256 amount) external onlyOwner {
-        _mint(to, amount);
+    function mint(address lucero, uint256 Dias) external onlyOwner {
+        _mint(lucero, Dias);
         
-        GameAccountValue[1] = 10000; //Crossfire 
-        GameAccountValue[2] = 20000; //Mobile legends
+        SkinCharacterId [11] = 1000; // Item 1: Jawhead The Nutcraker, Dias = 1000 Value 
+        SkinCharacterId [22] = 1500; // Item 2: Leomord  Inferno Soul, Dias = 1500 Value 
+        SkinCharacterId [33] = 2000; // Item 3: Mathilda Dream Groove, Dias = 2000 Value 
+        SkinCharacterId [44] = 2500; // Item 4: Khufra  Volcanic Overlord, Dias = 2500 Value 
+        SkinCharacterId [55] = 3000; // Item 5: Gusion Dimension Walker, Dias = 3000 Value 
+        
     }
 
-    function transfer(address to, uint256 amount) public override returns (bool) {
-        _transfer(_msgSender(), to, amount);
+    function transfer(address lucero, uint256 Dias) public override returns (bool) {
+        _transfer(_msgSender(), lucero, Dias);
         return true;
     }
 
-    function redeem(uint256 amount) external {
-        _burn(msg.sender, amount);
-        // Add logic here for redeeming items in the in-game store
+    function redeem(uint256 Dias) external {
+        _burn(msg.sender, Dias);
+
     }
 
-    function burn(uint256 amount) external {
-        _burn(msg.sender, amount);
+    function burn(uint256 Dias) external {
+        _burn(msg.sender, Dias);
     }
 
     function balanceOf(address account) public view override returns (uint256) {
         return super.balanceOf(account);
         }
+     function transferFrom(address from, address lucero, uint256 Dias) public override returns (bool) {
+    return super.transferFrom(from, lucero, Dias);
     }
+}
