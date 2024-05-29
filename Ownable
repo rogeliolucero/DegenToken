@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract Ownable {
+    address public lucero;
+
+    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
+
+    constructor() {
+        lucero = msg.sender;
+    }
+    modifier onlyLucero() {
+        require(msg.sender == lucero, "Ownable: caller is not the owner");
+        _;
+    }
+    function transferOwnership(address newOwner) public onlyLucero {
+        emit OwnershipTransferred(lucero, newOwner);
+        lucero = newOwner;
+    }
+}
