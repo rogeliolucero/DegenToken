@@ -1,0 +1,38 @@
+// SPDX-License-Identifier: MIT
+pragma solidity >= 0.6.12<0.9.0;
+
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+
+contract DegenTokenLucero is ERC20, Ownable {
+
+mapping (uint256 => uint256) public GameAccountValue;
+    constructor(address initialOwner) Ownable(initialOwner)ERC20("DegenToken", "DEGEN") {
+        _mint(initialOwner,3000);
+    }
+
+    function mint(address to, uint256 amount) external onlyOwner {
+        _mint(to, amount);
+        
+        GameAccountValue[1] = 10000; //Crossfire 
+        GameAccountValue[2] = 20000; //Mobile legends
+    }
+
+    function transfer(address to, uint256 amount) public override returns (bool) {
+        _transfer(_msgSender(), to, amount);
+        return true;
+    }
+
+    function redeem(uint256 amount) external {
+        _burn(msg.sender, amount);
+        // Add logic here for redeeming items in the in-game store
+    }
+
+    function burn(uint256 amount) external {
+        _burn(msg.sender, amount);
+    }
+
+    function balanceOf(address account) public view override returns (uint256) {
+        return super.balanceOf(account);
+        }
+    }
