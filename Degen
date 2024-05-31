@@ -1,46 +1,58 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >= 0.6.12<0.9.0;
+pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+import "./Ownable.sol";
 
-contract Diamond is ERC20, Ownable {
 
-mapping (uint256 => uint256) public SkinCharacterId ;
-    constructor(address initialOwner) Ownable(initialOwner)ERC20("Diamond", "Dias") {
+contract LuceroCharacterSkin is ERC20, Ownable {
 
-        _mint(initialOwner,3000);
+    mapping (uint256 => uint256) public SkinCharacterId;
+
+    event ItemRedeemed(address indexed player, uint256 indexed SkinId, uint256 diasAmount);
+
+    constructor(address initialOwner) ERC20("Diamond", "DIAS") {
+        _mint(initialOwner, 3000); 
+
+        SkinCharacterId[11] = 1000; // Item 1: Jawhead The Nutcracker, Dias = 1000 Value 
+        SkinCharacterId[22] = 1500; // Item 2: Leomord Inferno Soul, Dias = 1500 Value 
+        SkinCharacterId[33] = 2000; // Item 3: Mathilda Dream Groove, Dias = 2000 Value 
+        SkinCharacterId[44] = 2500; // Item 4: Khufra Volcanic Overlord, Dias = 2500 Value 
+        SkinCharacterId[55] = 3000; // Item 5: Gusion Dimension Walker, Dias = 3000 Value 
     }
 
-    function mint(address lucero, uint256 Dias) external onlyOwner {
-        _mint(lucero, Dias);
-        
-        SkinCharacterId [11] = 1000; // Item 1: Jawhead The Nutcraker, Dias = 1000 Value 
-        SkinCharacterId [22] = 1500; // Item 2: Leomord  Inferno Soul, Dias = 1500 Value 
-        SkinCharacterId [33] = 2000; // Item 3: Mathilda Dream Groove, Dias = 2000 Value 
-        SkinCharacterId [44] = 2500; // Item 4: Khufra  Volcanic Overlord, Dias = 2500 Value 
-        SkinCharacterId [55] = 3000; // Item 5: Gusion Dimension Walker, Dias = 3000 Value 
-        
+    function mint(address to, uint256 diasAmount) external onlyOwner {
+        _mint(to, diasAmount);
     }
 
-    function transfer(address lucero, uint256 Dias) public override returns (bool) {
-        _transfer(_msgSender(), lucero, Dias);
+    function transfer(address to, uint256 diasAmount) public override returns (bool) {
+        _transfer(_msgSender(), to, diasAmount);
         return true;
     }
 
-    function redeem(uint256 Dias) external {
-        _burn(msg.sender, Dias);
-
+    function setSkinCharacterId(uint256 SkinId, uint256 diasAmount) external onlyOwner {
+        SkinCharacterId[SkinId] = diasAmount;
     }
 
-    function burn(uint256 Dias) external {
-        _burn(msg.sender, Dias);
+    function redeemSkin(uint256 SkinId) public returns (uint256) {
+        uint256 Amount = SkinCharacterId[SkinId];
+        require(Amount > 0, "Invalid Skin ID or Skin not for sale");
+        require(balanceOf(msg.sender) >= Amount, "Insufficient Dias");
+        
+        _burn(msg.sender, Amount);
+        emit ItemRedeemed(msg.sender, SkinId, Amount);
+        return SkinCharacterId[SkinId];
+    }
+
+    function redeemBalance(address player) public view returns (uint256) {
+        return balanceOf(player);
+    }
+
+    function burn(uint256 diasAmount) external {
+        _burn(msg.sender, diasAmount);
     }
 
     function balanceOf(address account) public view override returns (uint256) {
         return super.balanceOf(account);
-        }
-     function transferFrom(address from, address lucero, uint256 Dias) public override returns (bool) {
-    return super.transferFrom(from, lucero, Dias);
     }
 }
