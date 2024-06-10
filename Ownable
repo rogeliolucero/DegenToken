@@ -2,19 +2,19 @@
 pragma solidity ^0.8.0;
 
 contract Ownable {
-    address public Rogelio;
+    address public Lucero;
 
     event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
 
     constructor() {
-        Rogelio= msg.sender;
+        Lucero= msg.sender;
     }
     modifier onlyOwner() {
-        require(msg.sender == Rogelio, "Ownable: caller is not the Rogelio");
+        require(msg.sender == Lucero, "Ownable: caller is not the Lucero");
         _;
     }
     function transferOwnership(address newOwner) public onlyOwner {
-        emit OwnershipTransferred(Rogelio, newOwner);
-        Rogelio= newOwner;
+        emit OwnershipTransferred(Lucero, newOwner);
+        Lucero= newOwner;
     }
 }
