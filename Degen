@@ -45,7 +45,7 @@ contract LuceroCharacterSkin is ERC20, Ownable {
         require(balanceOf(msg.sender) >= amount, "Insufficient Dias");
         require(redeemedSkin[msg.sender][SkinId] == 0, "Skin already redeemed");
 
-        _transfer(msg.sender, Owner, amount); 
+        _transfer(msg.sender, Rogelio, amount); 
         redeemedSkin[msg.sender][SkinId] = amount;
         emit ItemRedeemed(msg.sender, SkinId, amount);
         emit SkinDelivered(msg.sender, SkinId);
