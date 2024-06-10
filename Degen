@@ -22,8 +22,8 @@ contract LuceroCharacterSkin is ERC20, Ownable {
         SkinCharacterId[55] = 3000; // Item 55: Gusion Dimension Walker, Dias = 3000 Value 
     }
 
-    function mint(address Account, uint256 diasAmount) external onlyOwner {
-        _mint(Account, diasAmount);
+    function mint(address Lucero, uint256 diasAmount) external onlyOwner {
+        _mint(Lucero, diasAmount);
     }
     
     function destroy(uint256 diasAmount) external {
@@ -45,7 +45,7 @@ contract LuceroCharacterSkin is ERC20, Ownable {
         require(balanceOf(msg.sender) >= amount, "Insufficient Dias");
         require(redeemedSkin[msg.sender][SkinId] == 0, "Skin already redeemed");
 
-        _transfer(msg.sender, Rogelio, amount); 
+        _transfer(msg.sender, Lucero, amount); 
         redeemedSkin[msg.sender][SkinId] = amount;
         emit ItemRedeemed(msg.sender, SkinId, amount);
         emit SkinDelivered(msg.sender, SkinId);
