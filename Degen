@@ -13,7 +13,7 @@ contract LuceroCharacterSkin is ERC20, Ownable {
     event SkinDelivered(address indexed player, uint256 indexed SkinId);
 
     constructor(address initialOwner) ERC20("Diamond", "DIAS") {
-        _mint(initialOwner, 3000); 
+        _mint(initialOwner, 0); 
 
         SkinCharacterId[11] = 1000; // Item 11: Jawhead The Nutcracker, Dias = 1000 Value 
         SkinCharacterId[22] = 1500; // Item 22: Leomord Inferno Soul, Dias = 1500 Value 
